@@ -1,0 +1,67 @@
+name: API contract
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "27 6 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Read-only Wiro API smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      WIRO_API_KEY: ${{ secrets.WIRO_API_KEY }}
+      WIRO_API_SECRET: ${{ secrets.WIRO_API_SECRET }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up JDK 17
+        if: env.WIRO_API_KEY != ''
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        if: env.WIRO_API_KEY != ''
+        uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
+
+      - name: Set up Gradle
+        if: env.WIRO_API_KEY != ''
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6.3.0
+        with:
+          develocity-injection-enabled: "false"
+
+      - name: Enable KVM
+        if: env.WIRO_API_KEY != ''
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' \
+            | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run read-only contract smoke test
+        if: env.WIRO_API_KEY != ''
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2.38.0
+        with:
+          api-level: 26
+          arch: x86_64
+          target: google_apis
+          script: >
+            ./gradlew
+            :wirokit:connectedDebugAndroidTest
+            -Pandroid.testInstrumentationRunnerArguments.class=ai.wiro.wirokit.live.WiroLiveCoreAndroidTest#a01_searchExploreAndSchema
+            -Pandroid.testInstrumentationRunnerArguments.WIRO_API_KEY="$WIRO_API_KEY"
+            -Pandroid.testInstrumentationRunnerArguments.WIRO_API_SECRET="$WIRO_API_SECRET"
+            --no-configuration-cache
+
+      - name: Require contract credentials
+        if: env.WIRO_API_KEY == ''
+        run: |
+          echo "::error::WIRO_API_KEY is required for the contract smoke test."
+          exit 1

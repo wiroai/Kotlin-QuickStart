@@ -40,19 +40,25 @@ Releases are maintainer-only. Configure these GitHub Actions secrets:
 
 - `MAVEN_CENTRAL_USERNAME`
 - `MAVEN_CENTRAL_PASSWORD`
-- `SIGNING_KEY`
-- `SIGNING_PASSWORD`
+- `SIGNING_IN_MEMORY_KEY`
+- `SIGNING_IN_MEMORY_KEY_PASSWORD`
 
 Set the same release version in `gradle/libs.versions.toml` and
 `WiroKitInfo.kt`, then push a `vX.Y.Z` tag. The release workflow verifies the
 tag, runs all release checks, signs and publishes the artifacts to Maven
-Central, and creates the matching GitHub release.
+Central, and creates the matching GitHub release. The publish job runs only
+when the repository visibility is public.
 
 ## Live tests
 
 Live tests can create billable Wiro tasks. Do not run them without explicit
 authorization and short-lived credentials. Offline unit and instrumentation
 tests must remain credential-free.
+
+The scheduled API contract workflow only runs the read-only model search,
+explore, and schema checks. It fails when `WIRO_API_KEY` is unavailable.
+Configure `WIRO_API_KEY` and, when required, `WIRO_API_SECRET` as GitHub
+Actions secrets.
 
 ## Code of conduct
 
