@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Coroutine tracking: `watchTask`, `waitForTask`, `subscribe`,
   `subscribeStream` (polling and WebSocket). Both modes end on an equivalent
   terminal `/Task/Detail` snapshot.
-- Typed request factories via `object Wiro` (13 models; no upscaler).
+- Typed request factories via `object Wiro` (13 models).
 - Configurable `WiroClientLimits`, R8 consumer rules, and Kover ≥90%
   SDK-logic coverage gate.
 - Jetpack Compose example app with Keystore-backed credentials.
