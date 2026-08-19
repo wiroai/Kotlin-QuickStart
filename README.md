@@ -1,12 +1,19 @@
+<div align="center">
+
+<img src="https://wiro.ai/images/logos/logo/logo.png" alt="Wiro" width="180" />
+
 # WiroKit for Android
 
-[![CI](https://github.com/wiroai/Kotlin-QuickStart/actions/workflows/ci.yml/badge.svg)](https://github.com/wiroai/Kotlin-QuickStart/actions/workflows/ci.yml)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.4-purple.svg)](https://kotlinlang.org)
-[![Android API 26+](https://img.shields.io/badge/Android-API%2026%2B-green.svg)](https://developer.android.com)
-[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+**Official Android Kotlin SDK for discovering and running AI models on [Wiro](https://wiro.ai)**
 
-Official Android Kotlin SDK for discovering and running AI models on
-[Wiro](https://wiro.ai).
+[![CI](https://img.shields.io/github/actions/workflow/status/wiroai/Kotlin-QuickStart/ci.yml?style=for-the-badge&label=CI)](https://github.com/wiroai/Kotlin-QuickStart/actions/workflows/ci.yml)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.4-purple?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![Android](https://img.shields.io/badge/Android-API%2026%2B-3ddc84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
+[![MIT](https://img.shields.io/badge/license-MIT-6f42c1?style=for-the-badge)](LICENSE)
+
+[Docs](https://wiro.ai/docs) · [Models](https://wiro.ai/models) · [Dashboard](https://wiro.ai/panel) · [Create Project](https://wiro.ai/panel/project/new)
+
+</div>
 
 ## Features
 
@@ -173,8 +180,6 @@ val dynamic = Wiro.model(
 )
 ```
 
-`google/upscaler` is not part of the supported typed API.
-
 ## Polling and WebSocket tracking
 
 ```kotlin
@@ -284,3 +289,15 @@ Pro image with live status, Coil rendering, and local/API cancel/kill.
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+---
+
+<div align="center">
+
+<img src="https://wiro.ai/images/koala/accent-heavy-koala.png" alt="Wiro" width="80" />
+
+**Built with 💚 by the Wiro team**
+
+[wiro.ai](https://wiro.ai) · [GitHub @wiroai](https://github.com/wiroai)
+
+</div>
