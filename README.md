@@ -6,7 +6,7 @@
 
 Run image, video, audio and LLM models from Android apps in Kotlin with the Wiro AI API: typed requests, live task tracking and file uploads.
 
-[![Kotlin 2.4+](https://img.shields.io/badge/Kotlin-2.4%2B-111111?style=for-the-badge&color=111111&logo=kotlin&logoColor=white)](https://kotlinlang.org) [![Android API 26+](https://img.shields.io/badge/Android-API%2026%2B-111111?style=for-the-badge&color=111111&logo=android&logoColor=white)](https://developer.android.com) [![License: MIT](https://img.shields.io/badge/license-MIT-111111?style=for-the-badge&color=111111)](LICENSE)
+[![Kotlin 2.4+](https://img.shields.io/badge/Kotlin-2.4%2B-111111?style=for-the-badge&color=111111&logo=kotlin&logoColor=white)](https://kotlinlang.org) [![Android API 26+](https://img.shields.io/badge/Android-API%2026%2B-111111?style=for-the-badge&color=111111&logo=android&logoColor=white)](https://developer.android.com) [![CI](https://img.shields.io/github/actions/workflow/status/wiroai/Kotlin-QuickStart/ci.yml?branch=main&style=for-the-badge&color=111111&label=CI&logo=githubactions&logoColor=white)](https://github.com/wiroai/Kotlin-QuickStart/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-111111?style=for-the-badge&color=111111)](LICENSE)
 
 [Website](https://wiro.ai) · [Models](https://wiro.ai/models) · [Docs](https://wiro.ai/docs/code-examples) · [Dashboard](https://wiro.ai/panel)
 
