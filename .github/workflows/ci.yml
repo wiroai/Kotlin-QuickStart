@@ -109,7 +109,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [26, 37]
+        # The SDK repository publishes API 37 only as minor versions
+        # (platforms;android-37.0 and up); there is no android-37.
+        api-level: [26, "37.0"]
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -144,6 +146,9 @@ jobs:
           api-level: ${{ matrix.api-level }}
           arch: x86_64
           target: google_apis
+          # With the default AVD memory the API 37 image never comes
+          # online; with 4 GB it boots in about a minute.
+          ram-size: 4096M
           script: >
             ./gradlew
             :app:connectedDebugAndroidTest
