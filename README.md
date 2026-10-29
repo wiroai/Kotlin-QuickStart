@@ -1,19 +1,24 @@
 <div align="center">
 
-<img src="https://wiro.ai/images/logos/logo/logo.png" alt="Wiro" width="180" />
+<img src="https://wiro.ai/images/favicon/icon-512x512.png" alt="Wiro AI" width="100">
 
-# WiroKit for Android
+# WiroKit for Android: Kotlin SDK for the Wiro AI API
 
-**Official Android Kotlin SDK for discovering and running AI models on [Wiro](https://wiro.ai)**
+Run image, video, audio and LLM models from Android apps in Kotlin with the Wiro AI API: typed requests, live task tracking and file uploads.
 
-[![CI](https://img.shields.io/github/actions/workflow/status/wiroai/Kotlin-QuickStart/ci.yml?style=for-the-badge&label=CI)](https://github.com/wiroai/Kotlin-QuickStart/actions/workflows/ci.yml)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.4-purple?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
-[![Android](https://img.shields.io/badge/Android-API%2026%2B-3ddc84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
-[![MIT](https://img.shields.io/badge/license-MIT-6f42c1?style=for-the-badge)](LICENSE)
+[![Kotlin 2.4+](https://img.shields.io/badge/Kotlin-2.4%2B-111111?style=for-the-badge&color=111111&logo=kotlin&logoColor=white)](https://kotlinlang.org) [![Android API 26+](https://img.shields.io/badge/Android-API%2026%2B-111111?style=for-the-badge&color=111111&logo=android&logoColor=white)](https://developer.android.com) [![License: MIT](https://img.shields.io/badge/license-MIT-111111?style=for-the-badge&color=111111)](LICENSE)
 
-[Docs](https://wiro.ai/docs) · [Models](https://wiro.ai/models) · [Dashboard](https://wiro.ai/panel) · [Create Project](https://wiro.ai/panel/project/new)
+[Website](https://wiro.ai) · [Models](https://wiro.ai/models) · [Docs](https://wiro.ai/docs/code-examples) · [Dashboard](https://wiro.ai/panel)
 
 </div>
+
+WiroKit for Android is the official Kotlin library for calling the
+[Wiro AI](https://wiro.ai) model API from Android apps (API 26+). It runs any
+model in the Wiro AI catalog, through typed request factories for popular
+image, video and music models or through `Wiro.model` with a parameter map,
+and follows each task by polling or over a WebSocket with coroutines and
+Flows. The repo also contains a Jetpack Compose example app that generates
+images with FLUX.2 Pro.
 
 ## Features
 
@@ -33,7 +38,7 @@
 - Android `minSdk` 26+
 - Kotlin 2.4+
 - JDK 17+ for builds
-- A [Wiro project and API key](https://wiro.ai/panel/project/new)
+- A [Wiro AI project and API key](https://wiro.ai/panel/project/new)
 
 ## Installation
 
@@ -113,7 +118,7 @@ public suspend fun generateImage() {
 }
 ```
 
-> **Mobile tip:** Prefer `WiroClient(proxyUrl = …, headers = …)` in shipped
+> **Mobile tip:** Prefer `WiroClient(proxyUrl = ..., headers = ...)` in shipped
 > apps so long-lived API secrets never ship inside the binary.
 
 ## Authentication
@@ -142,15 +147,15 @@ val client = WiroClient(
 )
 ```
 
-Your backend attaches Wiro credentials server-side. The SDK never stores an
+Your backend attaches Wiro AI credentials server-side. The SDK never stores an
 API key in proxy mode.
 
 ## Which call do I need?
 
-| I want to… | Call |
+| I want to... | Call |
 | --- | --- |
 | Generate with a supported model | `client.subscribe(Wiro.flux2Pro(...))` |
-| Run any other model | `client.subscribe(Wiro.model("owner/project", …))` |
+| Run any other model | `client.subscribe(Wiro.model("owner/project", ...))` |
 | Fire-and-forget then wait | `run` / `runModel` then `waitForTask` |
 | Stream live status updates | `subscribeStream(...)` |
 | Find a model | `searchModels` / `explore` |
@@ -160,6 +165,15 @@ API key in proxy mode.
 | Stop work | Cancel the coroutine, or `cancelTask` / `killTask` |
 
 ## Typed and dynamic requests
+
+Typed factories are available for these models. Any other model runs through
+`Wiro.model`.
+
+| Category | Models |
+| --- | --- |
+| Image | FLUX.2 Pro, GPT Image 2, Nano Banana Pro, Seedream v4, Grok Imagine Image |
+| Video | Runway Gen-4.5, Seedance 2.0, Kling V3, Veo 3.1, Sora 2 Pro, Hailuo 2.3 Fast, Grok Imagine Video |
+| Music | Lyria 3 |
 
 ```kotlin
 // Typed
@@ -243,7 +257,8 @@ Unresolved file inputs inside run parameters are uploaded automatically before
 
 ## Security guidance
 
-- Minified release builds enforce proxy mode.
+- Use proxy mode in release builds. The example app's minified release build
+  accepts only a backend proxy URL.
 - Never log API keys, secrets, proxy bearer tokens, or raw response bodies.
 - SDK exceptions redact sensitive values from `toString()` / messages where
   applicable; use `rawResponseBody` only for local diagnostics.
@@ -266,6 +281,7 @@ Pro image with live status, Coil rendering, and local/API cancel/kill.
 ## Documentation
 
 - Product docs: [https://wiro.ai/docs](https://wiro.ai/docs)
+- Available models: [https://wiro.ai/models](https://wiro.ai/models)
 - Generated API docs (Dokka): `./gradlew :wirokit:dokkaGenerate`
   → `wirokit/build/dokka/html/index.html`
 - Changelog: [`CHANGELOG.md`](CHANGELOG.md)
@@ -286,18 +302,30 @@ Pro image with live status, Coil rendering, and local/API cancel/kill.
 ./gradlew :consumer-fixture:testDebugUnitTest
 ```
 
+## More from Wiro AI
+
+| Repository | What it is |
+| --- | --- |
+| [Wiro-MCP](https://github.com/wiroai/Wiro-MCP) | Official MCP server for Wiro AI (`@wiro-ai/wiro-mcp`) |
+| [Wiro-Plugin](https://github.com/wiroai/Wiro-Plugin) | Wiro AI plugin for Cursor, Claude Code, Gemini CLI and Devin |
+| [Swift-QuickStart](https://github.com/wiroai/Swift-QuickStart) | WiroKit, the Wiro AI SDK for iOS |
+| [Dart-QuickStart](https://github.com/wiroai/Dart-QuickStart) | Wiro AI SDK for Dart and Flutter |
+| [ReactNative-QuickStart](https://github.com/wiroai/ReactNative-QuickStart) | WiroKit, the Wiro AI SDK for React Native |
+| [Swift-Realtime](https://github.com/wiroai/Swift-Realtime) | Realtime voice AI example for iOS |
+| [Kotlin-Realtime](https://github.com/wiroai/Kotlin-Realtime) | Realtime voice AI example for Android |
+| [Dart-Realtime](https://github.com/wiroai/Dart-Realtime) | Realtime voice AI example for Flutter |
+| [ReactNative-Realtime](https://github.com/wiroai/ReactNative-Realtime) | Realtime voice AI example for React Native |
+| [n8n-nodes-wiroai](https://github.com/wiroai/n8n-nodes-wiroai) | Wiro AI nodes for n8n |
+| [Wiro-Docs](https://github.com/wiroai/Wiro-Docs) | Source of the Wiro AI API docs |
+
+[Website](https://wiro.ai) · [Models](https://wiro.ai/models) · [Docs](https://wiro.ai/docs) · [X](https://x.com/wiroai)
+
 ## License
 
-MIT — see [LICENSE](LICENSE).
-
----
+MIT. See [LICENSE](LICENSE).
 
 <div align="center">
 
-<img src="https://wiro.ai/images/koala/accent-heavy-koala.png" alt="Wiro" width="80" />
-
-**Built with 💚 by the Wiro team**
-
-[wiro.ai](https://wiro.ai) · [GitHub @wiroai](https://github.com/wiroai)
+<img src="https://wiro.ai/images/koala/accent-heavy-koala.png" alt="Wiro AI koala mascot" width="80">
 
 </div>
