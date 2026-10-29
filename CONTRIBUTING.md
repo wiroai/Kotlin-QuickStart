@@ -56,7 +56,8 @@ authorization and short-lived credentials. Offline unit and instrumentation
 tests must remain credential-free.
 
 The scheduled API contract workflow only runs the read-only model search,
-explore, and schema checks. It fails when `WIRO_API_KEY` is unavailable.
+explore, and schema checks. It skips with a warning when `WIRO_API_KEY` is
+unavailable.
 Configure `WIRO_API_KEY` and, when required, `WIRO_API_SECRET` as GitHub
 Actions secrets.
 
