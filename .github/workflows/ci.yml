@@ -109,9 +109,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # The SDK repository publishes API 37 only as minor versions
-        # (platforms;android-37.0 and up); there is no android-37.
-        api-level: [26, "37.0"]
+        include:
+          - api-level: 26
+            target: google_apis
+            cores: 2
+          # The SDK repository publishes API 37 only as minor versions
+          # (platforms;android-37.0 and up); there is no android-37. Its
+          # google_apis image loses the package service soon after boot
+          # on these runners, so API 37 runs on the ATD image, which is
+          # built for headless instrumentation tests.
+          - api-level: "37.0"
+            target: google_atd
+            cores: 4
     steps:
       - name: Checkout
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -145,10 +154,13 @@ jobs:
         with:
           api-level: ${{ matrix.api-level }}
           arch: x86_64
-          target: google_apis
+          target: ${{ matrix.target }}
+          cores: ${{ matrix.cores }}
           # With the default AVD memory the API 37 image never comes
-          # online; with 4 GB it boots in about a minute.
+          # online, and the default data partition has no room for the
+          # app.
           ram-size: 4096M
+          disk-size: 6000M
           script: >
             ./gradlew
             :app:connectedDebugAndroidTest
