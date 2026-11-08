@@ -9,6 +9,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.net.URI
 import java.time.Instant
 
 class WiroDiscoveryParseTest {
@@ -60,6 +61,67 @@ class WiroDiscoveryParseTest {
         assertEquals(100, model.taskStats?.runCount)
         assertEquals(90, model.taskStats?.successCount)
         assertTrue(model.raw.containsKey("taskstat"))
+    }
+
+    @Test
+    fun `model keeps the dynamicprice JSON string from the Tool List response`() {
+        val tiers = """[{"inputs":{},"price":0.09,"priceMethod":"cpr"}]"""
+
+        val model =
+            WiroModel.parse(
+                mapOf("dynamicprice" to WiroValue.StringValue(tiers)),
+            )
+
+        assertEquals(tiers, model.dynamicPrice)
+    }
+
+    @Test
+    fun `schema encodes the dynamicprice array from the Tool Detail response as JSON text`() {
+        val tiers =
+            WiroValue.fromJsonElement(
+                Json.parseToJsonElement(
+                    """[{ "inputs": {}, "price": 0.039, "priceMethod": "cpo" }]""",
+                ),
+            )
+
+        val schema = WiroModelSchema.parse(mapOf("dynamicprice" to tiers))
+        val text = schema.model.dynamicPrice.orEmpty()
+
+        assertEquals(
+            """[{"inputs":{},"price":0.039,"priceMethod":"cpo"}]""",
+            text,
+        )
+        assertEquals(
+            tiers,
+            WiroValue.fromJsonElement(Json.parseToJsonElement(text)),
+        )
+    }
+
+    @Test
+    fun `json text reads collections as JSON and other values as strings`() {
+        val source = """{"a":[1.50,true,null]}"""
+        val unresolvedFile =
+            WiroValue.ArrayValue(
+                listOf(
+                    WiroValue.FileInputValue(
+                        WiroFileInput.Url(URI("https://example.com/a.png")),
+                    ),
+                ),
+            )
+
+        assertEquals(
+            source,
+            WiroJsonReader.jsonText(
+                WiroValue.fromJsonElement(Json.parseToJsonElement(source)),
+            ),
+        )
+        assertEquals(
+            "tier-a",
+            WiroJsonReader.jsonText(WiroValue.StringValue("tier-a")),
+        )
+        assertEquals("2", WiroJsonReader.jsonText(WiroValue.NumberValue("2")))
+        assertNull(WiroJsonReader.jsonText(null))
+        assertNull(WiroJsonReader.jsonText(unresolvedFile))
     }
 
     @Test

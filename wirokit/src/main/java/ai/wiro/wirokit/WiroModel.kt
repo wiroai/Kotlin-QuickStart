@@ -55,6 +55,11 @@ public class WiroModel(
     samples: List<String> = emptyList(),
     public val computingTime: String? = null,
     public val approximateCost: String? = null,
+    /**
+     * JSON text of the model's pricing tiers, such as
+     * `[{"inputs":{},"price":0.09,"priceMethod":"cpr"}]`. Read from the
+     * `dynamicprice` field of both `Tool/List` and `Tool/Detail` responses.
+     */
     public val dynamicPrice: String? = null,
     public val cps: String? = null,
     public val taskStats: WiroModelTaskStats? = null,
@@ -150,7 +155,7 @@ public class WiroModel(
                     json,
                     "approximatelycost",
                 ),
-                dynamicPrice = WiroJsonReader.string(json, "dynamicprice"),
+                dynamicPrice = WiroJsonReader.jsonText(json["dynamicprice"]),
                 cps = WiroJsonReader.string(json, "cps"),
                 taskStats = taskStatsJson?.let(WiroModelTaskStats::parse),
                 raw = json,

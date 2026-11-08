@@ -47,6 +47,22 @@ internal object WiroJsonReader {
         key: String,
     ): String? = string(objectValue[key])
 
+    /**
+     * Reads objects and arrays as compact JSON text and other values like
+     * [string].
+     */
+    fun jsonText(value: WiroValue?): String? = when (value) {
+        is WiroValue.ObjectValue, is WiroValue.ArrayValue -> {
+            runCatching {
+                nestedJson.encodeToString(WiroValue.serializer(), value)
+            }.getOrNull()
+        }
+
+        else -> {
+            string(value)
+        }
+    }
+
     fun integer(value: WiroValue?): Int? = value?.intValue
 
     fun integer(

@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Android-only Kotlin SDK module `ai.wiro:wirokit` (minSdk 26).
 - `WiroClient` with API-key, HMAC signature, and proxy authentication.
 - Discovery APIs: `searchModels`, `explore`, `getModelSchema`.
+- `WiroModel.dynamicPrice` reads `dynamicprice` as JSON text from both
+  `Tool/List` and `Tool/Detail`.
 - Run / task APIs: `runModel`, `getTask`, `getTaskById`, `cancelTask`,
   `killTask`.
 - Uploads: byte arrays and streaming `ContentUri` inputs.
