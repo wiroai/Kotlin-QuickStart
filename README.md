@@ -278,6 +278,14 @@ Configure an API key or proxy URL in **Settings** for a debug build. Minified
 release builds only accept a backend proxy URL. The demo generates a Flux 2
 Pro image with live status, Coil rendering, and local/API cancel/kill.
 
+## Agent skill
+
+This repository includes an agent skill, `wiro-kotlin`, in [`skills/wiro-kotlin/SKILL.md`](./skills/wiro-kotlin/SKILL.md). It shows coding agents such as Claude Code, Codex and Cursor how to use WiroKit in Android and Kotlin apps. Add it to your agent with:
+
+```bash
+npx skills add wiroai/Kotlin-QuickStart --skill wiro-kotlin
+```
+
 ## Documentation
 
 - Product docs: [https://wiro.ai/docs](https://wiro.ai/docs)
